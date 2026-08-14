@@ -135,11 +135,9 @@
     padding:16px 4px;border-bottom:1px solid var(--border);
     font-size:15.5px;font-weight:500;
   }
-  .feat i{
-    flex:none;width:22px;height:22px;border-radius:50%;
-    background:var(--gold);color:var(--deep);
-    display:inline-flex;align-items:center;justify-content:center;
-    font-style:normal;font-size:11px;font-weight:700;
+  .feat svg{
+    flex:none;width:24px;height:24px;stroke:var(--gold-deep);fill:none;
+    stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
   }
   .emp-grid .btn{margin-top:44px}
 
@@ -176,14 +174,23 @@
     transition:transform .35s var(--ease),box-shadow .35s var(--ease);
   }
   .tip-card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(33,30,27,.25)}
-  .tip-card .num{
-    font-family:'Instrument Serif',serif;font-style:italic;
-    font-size:54px;line-height:1;color:var(--gold-deep);margin-bottom:26px;
+  .tip-card .ico{
+    width:66px;height:66px;border-radius:50%;
+    border:1px solid rgba(201,154,94,.5);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:28px;
+    transition:background .3s var(--ease),border-color .3s var(--ease);
+  }
+  .tip-card:hover .ico{background:rgba(231,188,132,.14);border-color:var(--gold-deep)}
+  .tip-card .ico svg{
+    width:30px;height:30px;stroke:var(--gold-deep);fill:none;
+    stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;
   }
   .tip-card h3{font-size:21px;font-weight:600;letter-spacing:-.01em;line-height:1.3;margin-bottom:12px}
   .tip-card p{font-size:15px;color:var(--t2);line-height:1.7}
   .tip-card--dark{background:var(--deep);border-color:var(--deep);color:#fff}
-  .tip-card--dark .num{color:var(--gold)}
+  .tip-card--dark .ico{border-color:rgba(231,188,132,.5)}
+  .tip-card--dark .ico svg{stroke:var(--gold)}
   .tip-card--dark p{color:rgba(251,250,243,.78)}
   .plantas .btn{margin-top:52px}
 
@@ -449,12 +456,30 @@
         <p class="lead" style="margin-top:24px">O FR Bueno Municipal reúne localização, variedade de plantas e uma estrutura pensada para diferentes formas de morar. O empreendimento oferece desde studios e unidades compactas até apartamentos de 1 ou 2 quartos, gardens e penthouses, com metragens de <strong>38 m² a 145 m²</strong>.</p>
         <!-- COPY: bullets -->
         <div class="feat-list">
-          <div class="feat"><i>✓</i>18 tipos de planta</div>
-          <div class="feat"><i>✓</i>Studios, apartamentos, gardens e penthouses</div>
-          <div class="feat"><i>✓</i>Coworking e lavanderia</div>
-          <div class="feat"><i>✓</i>Lazer distribuído em diferentes áreas do empreendimento</div>
-          <div class="feat"><i>✓</i>Pronto para morar</div>
-          <div class="feat"><i>✓</i>Realização FR Incorporadora</div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            18 tipos de planta
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1"/><path d="M14 8h1"/><path d="M9 12h1"/><path d="M14 12h1"/><path d="M10 21v-3h4v3"/></svg>
+            Studios, apartamentos, gardens e penthouses
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>
+            Coworking e lavanderia
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9Z"/><path d="M12 12v7a2 2 0 0 0 4 0"/><path d="M12 3v2"/></svg>
+            Lazer distribuído em diferentes áreas do empreendimento
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+            Pronto para morar
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m9 14.2-1.5 7.3L12 19l4.5 2.5L15 14.2"/></svg>
+            Realização FR Incorporadora
+          </div>
         </div>
         <!-- COPY: CTA -->
         <a class="btn" href="#contato">Falar com o time comercial <span class="arr">→</span></a>
@@ -502,17 +527,17 @@
     <div class="tip-grid">
       <!-- COPY: tipologias -->
       <div class="tip-card reveal">
-        <span class="num">01</span>
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M8.5 20.5v-4"/><path d="M8.5 16.5a4 4 0 0 1 4 4"/><rect x="13" y="6.5" width="4.8" height="7" rx="0.8"/><path d="M13 9.2h4.8"/></svg></span>
         <h3>Studios e unidades compactas</h3>
         <p>Plantas para quem busca praticidade e uma rotina conectada aos serviços da região.</p>
       </div>
       <div class="tip-card reveal" style="transition-delay:.08s">
-        <span class="num">02</span>
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6"/><path d="M3 16h18"/><path d="M7.5 8h3.5"/><path d="M13 8h3.5"/><path d="M3 18v2"/><path d="M21 18v2"/></svg></span>
         <h3>Apartamentos de 1 ou 2 quartos</h3>
         <p>Configurações com mais espaço para diferentes perfis de moradia.</p>
       </div>
       <div class="tip-card tip-card--dark reveal" style="transition-delay:.16s">
-        <span class="num">03</span>
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M6 21V12h6v9"/><path d="M12 21V5h7v16"/><path d="M15.2 9h1"/><path d="M15.2 13h1"/><path d="M15.2 17h1"/><path d="M9 12V9.5"/><path d="M9 9.5C9 7.8 7.7 6.8 6 6.8c.3 1.9 1.5 2.7 3 2.7Z"/></svg></span>
         <h3>Gardens e penthouses</h3>
         <p>Alternativas com características próprias para quem procura plantas menos convencionais dentro do empreendimento.</p>
       </div>
