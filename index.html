@@ -204,6 +204,44 @@
   }
   .gal .tall{grid-row:span 2}
   .gal .wide{grid-column:span 2}
+  .gal figure{cursor:zoom-in}
+
+  /* ---------- Lightbox ---------- */
+  .lb{
+    position:fixed;inset:0;z-index:200;
+    background:rgba(22,10,11,.96);
+    display:none;align-items:center;justify-content:center;
+    flex-direction:column;padding:56px 84px;
+  }
+  .lb.open{display:flex}
+  .lb img{
+    max-width:100%;max-height:calc(100vh - 190px);
+    object-fit:contain;border-radius:12px;
+  }
+  .lb-cap{
+    margin-top:20px;display:flex;align-items:center;gap:18px;
+    font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(251,250,243,.85);
+  }
+  .lb-cap .count{color:var(--gold)}
+  .lb-btn{
+    position:absolute;display:flex;align-items:center;justify-content:center;
+    width:52px;height:52px;border-radius:50%;
+    background:transparent;border:1px solid rgba(251,250,243,.28);
+    color:#FBFAF3;font-size:20px;line-height:1;cursor:pointer;
+    transition:all .25s var(--ease);user-select:none;
+  }
+  .lb-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--deep)}
+  .lb-prev{left:22px;top:50%;transform:translateY(-50%)}
+  .lb-next{right:22px;top:50%;transform:translateY(-50%)}
+  .lb-close{top:22px;right:22px}
+  @media (max-width:640px){
+    .lb{padding:72px 16px 40px}
+    .lb-btn{width:44px;height:44px}
+    .lb-prev{left:10px;top:auto;bottom:18px;transform:none}
+    .lb-next{right:10px;top:auto;bottom:18px;transform:none}
+    .lb img{max-height:calc(100vh - 210px)}
+  }
   .estrutura .btn-row{display:flex;justify-content:center;margin-top:56px}
 
   /* ---------- Pronto ---------- */
@@ -602,7 +640,9 @@
         <p>O FR Bueno Municipal é um empreendimento da <strong>FR Incorporadora</strong>, responsável também pelo Órion Complex, localizado a poucos metros do projeto.</p>
         <!-- COPY: números FR -->
         <div class="foot-nums">
-          <div class="foot-num">+ de 82 empreendimentos entregues no prazo</div>
+          <div class="foot-num">+ de 20 anos de história</div>
+          <div class="foot-num">+ 82 empreendimentos entregues no prazo</div>
+          <div class="foot-num">+ de 17 mil lares realizado</div>
           <div class="foot-num">+ de 3,9 milhões de m² de área construída</div>
         </div>
       </div>
@@ -614,11 +654,61 @@
   </div>
 </footer>
 
+<!-- ============ LIGHTBOX ============ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Galeria de imagens">
+  <button class="lb-btn lb-close" id="lb-close" aria-label="Fechar">✕</button>
+  <button class="lb-btn lb-prev" id="lb-prev" aria-label="Anterior">←</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-cap"><span class="count" id="lb-count"></span><span id="lb-label"></span></div>
+  <button class="lb-btn lb-next" id="lb-next" aria-label="Próxima">→</button>
+</div>
+
 <script>
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Lightbox da galeria
+  const figs = [...document.querySelectorAll('.gal figure')];
+  const items = figs.map(f => ({
+    src: f.querySelector('img').src,
+    alt: f.querySelector('img').alt,
+    cap: (f.querySelector('figcaption') || {}).textContent || ''
+  }));
+  const lb = document.getElementById('lb');
+  const lbImg = document.getElementById('lb-img');
+  const lbLabel = document.getElementById('lb-label');
+  const lbCount = document.getElementById('lb-count');
+  let cur = 0;
+  function show(i){
+    cur = (i + items.length) % items.length;
+    lbImg.src = items[cur].src;
+    lbImg.alt = items[cur].alt;
+    lbLabel.textContent = items[cur].cap;
+    lbCount.textContent = (cur + 1) + ' / ' + items.length;
+  }
+  function openLb(i){ show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeLb(){ lb.classList.remove('open'); document.body.style.overflow = ''; }
+  figs.forEach((f, i) => f.addEventListener('click', () => openLb(i)));
+  document.getElementById('lb-close').addEventListener('click', closeLb);
+  document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); show(cur - 1); });
+  document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); show(cur + 1); });
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    if (e.key === 'ArrowRight') show(cur + 1);
+  });
+  let tx = null;
+  lb.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', (e) => {
+    if (tx === null) return;
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 48) show(cur + (dx < 0 ? 1 : -1));
+    tx = null;
+  }, {passive:true});
 </script>
 
 </body>
